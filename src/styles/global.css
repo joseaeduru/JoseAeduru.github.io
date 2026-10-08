@@ -1,16 +1,47 @@
+/* Palette: forest green (header, hero, page heads, footer), cream (content), gold (accents). */
 :root {
-  --navy-900: #071430;
-  --navy-800: #0b1f4a;
-  --navy-700: #10306c;
-  --orange: #f59e0b;
-  --gold: #fbbf24;
-  --blue: #3b82f6;
-  --blue-light: #60a5fa;
-  --text: #f1f5f9;
-  --text-muted: #cbd5e1;
-  --line: rgba(148, 163, 184, 0.3);
-  --card: rgba(255, 255, 255, 0.05);
+  --bg: #faf6ec;
+  --bg-solid: #faf6ec;
+  --surface: #fffdf8;
+  --line: #e8dfcb;
+  --text: #1f2a22;
+  --text-muted: #54604f;
+  --heading: #0f3f2e;
+  --accent: #dcae32;
+  --accent-hover: #ecc35a;
+  --accent-ink: #0a2e22;
+  --highlight: #86630f;
+  --link: #0f5c3f;
+  --ghost: #0f3f2e;
+  --ghost-hover: rgba(15, 63, 46, 0.08);
+  --pill-bg: #f2ebd9;
+  --pill-border: #dccfae;
+  --code-bg: rgba(15, 63, 46, 0.08);
+  --pre-bg: #f2ebd9;
+  --ring: rgba(15, 63, 46, 0.08);
+  --focus: #0f3f2e;
+  --forest-900: #0a2e22;
   --max: 68rem;
+}
+
+.theme-dark {
+  --bg: linear-gradient(160deg, #0a2e22 0%, #0f3f2e 55%, #145238 100%);
+  --bg-solid: #145238;
+  --surface: rgba(255, 255, 255, 0.06);
+  --line: rgba(233, 220, 190, 0.28);
+  --text: #f6f2e7;
+  --text-muted: #d6ded3;
+  --heading: #f6f2e7;
+  --highlight: #ecc35a;
+  --link: #b7ebcf;
+  --ghost: #ecc35a;
+  --ghost-hover: rgba(236, 195, 90, 0.14);
+  --pill-bg: rgba(255, 255, 255, 0.07);
+  --pill-border: rgba(236, 195, 90, 0.5);
+  --ring: rgba(236, 195, 90, 0.16);
+  --focus: #ecc35a;
+  background: var(--bg);
+  color: var(--text);
 }
 
 *,
@@ -20,8 +51,7 @@
 }
 
 html {
-  background: var(--navy-900);
-  color-scheme: dark;
+  background: var(--bg-solid);
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
   -webkit-text-size-adjust: 100%;
@@ -30,12 +60,17 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   font-family: 'Inter Variable', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   font-size: 1.0625rem;
   line-height: 1.65;
   color: var(--text);
-  background: linear-gradient(160deg, var(--navy-900) 0%, var(--navy-800) 55%, var(--navy-700) 100%);
+  background: var(--bg);
   overflow-wrap: break-word;
+}
+main {
+  flex: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -56,6 +91,7 @@ h3 {
   line-height: 1.2;
   margin: 0 0 0.75rem;
   letter-spacing: -0.01em;
+  color: var(--heading);
 }
 h1 {
   font-size: clamp(2.1rem, 6vw, 3.4rem);
@@ -79,14 +115,14 @@ ol {
 }
 
 a {
-  color: var(--blue-light);
+  color: var(--link);
   text-underline-offset: 0.2em;
 }
 a:hover {
-  color: var(--gold);
+  color: var(--highlight);
 }
 :focus-visible {
-  outline: 3px solid var(--gold);
+  outline: 3px solid var(--focus);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -96,15 +132,15 @@ a:hover {
   left: 1rem;
   top: -5rem;
   z-index: 10;
-  background: var(--orange);
-  color: var(--navy-900);
+  background: var(--accent);
+  color: var(--accent-ink);
   padding: 0.5rem 1rem;
   border-radius: 6px;
   font-weight: 700;
 }
 .skip-link:focus {
   top: 1rem;
-  color: var(--navy-900);
+  color: var(--accent-ink);
 }
 
 .wrap {
@@ -122,8 +158,11 @@ section {
   letter-spacing: 0.14em;
   font-size: 0.8rem;
   font-weight: 700;
-  color: var(--orange);
+  color: var(--highlight);
   margin-bottom: 0.5rem;
+}
+.eyebrow a {
+  color: inherit;
 }
 .lead {
   font-size: 1.15rem;
@@ -131,7 +170,10 @@ section {
   max-width: 44rem;
 }
 .page-head {
-  padding: 3.25rem 0 0.5rem;
+  padding: 3.25rem 0 2.5rem;
+}
+.page-head > .wrap > :last-child {
+  margin-bottom: 0;
 }
 
 /* Header and footer */
@@ -139,8 +181,7 @@ section {
   position: sticky;
   top: 0;
   z-index: 5;
-  background: rgba(7, 20, 48, 0.94);
-  backdrop-filter: blur(8px);
+  background: var(--forest-900);
 }
 .header-inner {
   display: flex;
@@ -153,7 +194,7 @@ section {
 .brand {
   font-weight: 800;
   font-size: 1.15rem;
-  color: var(--text);
+  color: var(--heading);
   text-decoration: none;
 }
 .nav-list {
@@ -172,15 +213,14 @@ section {
 }
 .nav-list a:hover,
 .nav-list a[aria-current='page'] {
-  color: var(--gold);
+  color: var(--highlight);
 }
 .accent-bar {
   height: 4px;
-  background: linear-gradient(90deg, var(--orange), var(--blue) 70%, var(--blue-light));
+  background: linear-gradient(90deg, #b8891a, var(--accent-hover));
 }
 .site-footer {
-  margin-top: 2rem;
-  border-top: 1px solid var(--line);
+  background: var(--forest-900);
   padding: 1.75rem 0;
   color: var(--text-muted);
   font-size: 0.92rem;
@@ -200,30 +240,30 @@ section {
   display: inline-block;
   padding: 0.75rem 1.4rem;
   border-radius: 999px;
-  border: 2px solid var(--orange);
-  background: var(--orange);
-  color: var(--navy-900);
+  border: 2px solid var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
   font-weight: 700;
   text-decoration: none;
 }
 .btn:hover {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: var(--navy-900);
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--accent-ink);
 }
 .btn-ghost {
   background: transparent;
-  border-color: var(--blue-light);
-  color: var(--text);
+  border-color: var(--ghost);
+  color: var(--heading);
 }
 .btn-ghost:hover {
-  background: rgba(96, 165, 250, 0.15);
-  border-color: var(--blue-light);
-  color: var(--text);
+  background: var(--ghost-hover);
+  border-color: var(--ghost);
+  color: var(--heading);
 }
 .nav-list a.btn {
   padding: 0.35rem 1rem;
-  color: var(--navy-900);
+  color: var(--accent-ink);
   font-size: 0.95rem;
 }
 .actions {
@@ -248,8 +288,8 @@ section {
     circle at 92% 35%,
     transparent 0,
     transparent 139px,
-    rgba(96, 165, 250, 0.16) 139px,
-    rgba(96, 165, 250, 0.16) 140px
+    var(--ring) 139px,
+    var(--ring) 140px
   );
   -webkit-mask-image: linear-gradient(90deg, transparent 30%, #000 100%);
   mask-image: linear-gradient(90deg, transparent 30%, #000 100%);
@@ -263,8 +303,8 @@ section {
   margin-bottom: 1rem;
   padding: 0.3rem 0.7rem;
   border-radius: 4px;
-  background: var(--orange);
-  color: var(--navy-900);
+  background: var(--accent);
+  color: var(--accent-ink);
   font-size: 0.8rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -285,7 +325,7 @@ section {
 .hero-sub {
   font-size: clamp(1.05rem, 2.4vw, 1.3rem);
   font-weight: 700;
-  color: var(--gold);
+  color: var(--highlight);
   margin-bottom: 2rem;
 }
 .stats {
@@ -297,7 +337,7 @@ section {
   list-style: none;
 }
 .stat {
-  border-left: 3px solid var(--orange);
+  border-left: 3px solid var(--accent);
   padding-left: 0.9rem;
 }
 .stat strong {
@@ -319,13 +359,13 @@ section {
   list-style: none;
 }
 .card {
-  background: var(--card);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 1.4rem;
 }
 .card h3 {
-  color: var(--gold);
+  color: var(--highlight);
 }
 .card > :last-child {
   margin-bottom: 0;
@@ -342,8 +382,8 @@ section {
 .pills li {
   padding: 0.3rem 0.85rem;
   border-radius: 999px;
-  border: 1px solid rgba(96, 165, 250, 0.6);
-  background: rgba(16, 48, 108, 0.6);
+  border: 1px solid var(--pill-border);
+  background: var(--pill-bg);
   font-size: 0.92rem;
   font-weight: 500;
 }
@@ -366,7 +406,7 @@ section {
   list-style: none;
 }
 .role {
-  border-left: 3px solid var(--orange);
+  border-left: 3px solid var(--accent);
   padding-left: 1.2rem;
 }
 .role > :last-child {
@@ -382,13 +422,14 @@ section {
 .role-head h2,
 .role-head h3 {
   margin-bottom: 0.2rem;
+  color: var(--heading);
 }
 .role-head h2 {
   font-size: 1.35rem;
 }
 .role-dates {
   margin: 0;
-  color: var(--gold);
+  color: var(--highlight);
   font-size: 0.95rem;
   font-weight: 600;
   white-space: nowrap;
@@ -444,7 +485,7 @@ section {
   height: auto;
 }
 .prose code {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--code-bg);
   padding: 0.1em 0.35em;
   border-radius: 4px;
   font-size: 0.92em;
@@ -453,7 +494,8 @@ section {
   overflow-x: auto;
   padding: 1rem;
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--line);
+  background: var(--pre-bg);
 }
 .prose pre code {
   background: none;
@@ -462,6 +504,6 @@ section {
 .prose blockquote {
   margin: 0 0 1rem;
   padding-left: 1rem;
-  border-left: 3px solid var(--orange);
+  border-left: 3px solid var(--accent);
   color: var(--text-muted);
 }

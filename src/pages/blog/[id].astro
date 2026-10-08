@@ -17,13 +17,15 @@ const { title, description, pubDate, updatedDate } = post.data;
 
 <Base title={`${title} | ${site.name}`} description={description} ogType="article">
   <article>
-    <div class="wrap page-head">
-      <p class="eyebrow"><a href="/blog/">Blog</a></p>
-      <h1>{title}</h1>
-      <p class="post-date">
-        <time datetime={pubDate.toISOString().slice(0, 10)}>{formatDate(pubDate)}</time>
-        {updatedDate && <span> · Updated {formatDate(updatedDate)}</span>}
-      </p>
+    <div class="page-head theme-dark">
+      <div class="wrap">
+        <p class="eyebrow"><a href="/blog/">Blog</a></p>
+        <h1>{title}</h1>
+        <p class="post-date">
+          <time datetime={pubDate.toISOString().slice(0, 10)}>{formatDate(pubDate)}</time>
+          {updatedDate && <span> · Updated {formatDate(updatedDate)}</span>}
+        </p>
+      </div>
     </div>
     <section>
       <div class="wrap">

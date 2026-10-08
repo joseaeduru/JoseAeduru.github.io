@@ -39,8 +39,8 @@ test('every page has exactly one h1, a skip link and the header and footer', () 
     const html = read(file);
     assert.equal(html.match(/<h1[\s>]/g).length, 1, file);
     assert.match(html, /class="skip-link"/, file);
-    assert.match(html, /<header class="site-header"/, file);
-    assert.match(html, /<footer class="site-footer"/, file);
+    assert.match(html, /<header class="site-header theme-dark"/, file);
+    assert.match(html, /<footer class="site-footer theme-dark"/, file);
   }
 });
 
