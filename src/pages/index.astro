@@ -1,0 +1,151 @@
+---
+import Base from '../layouts/Base.astro';
+import Pills from '../components/Pills.astro';
+import {
+  site,
+  stats,
+  about,
+  led,
+  howIWork,
+  skills,
+  roles,
+  certifications,
+  education,
+} from '../data/profile.mjs';
+
+const title = `${site.name} | ${site.title}, Frisco, TX`;
+---
+
+<Base title={title} description={site.description}>
+  <section class="hero">
+    <div class="wrap">
+      <p class="tag">Oracle Cloud HCM</p>
+      <h1>{site.name}</h1>
+      <p class="hero-title">{site.title} · {site.subtitle}</p>
+      <p class="hero-line">{site.tagline}</p>
+      <p class="hero-sub">{site.focus}</p>
+      <ul class="stats">
+        {
+          stats.map((stat) => (
+            <li class="stat">
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="actions">
+        <a class="btn" href={`mailto:${site.email}`}>Email me</a>
+        <a class="btn btn-ghost" href={site.linkedin} rel="noopener">LinkedIn profile</a>
+      </p>
+    </div>
+  </section>
+
+  <section id="about" aria-labelledby="about-h">
+    <div class="wrap">
+      <p class="eyebrow">About</p>
+      <h2 id="about-h">Oracle Cloud HCM, from blank slate to steady state</h2>
+      <div class="prose">
+        {about.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section id="led" aria-labelledby="led-h">
+    <div class="wrap">
+      <p class="eyebrow">Track record</p>
+      <h2 id="led-h">What I have led</h2>
+      <ul class="grid">
+        {
+          led.map((item) => (
+            <li class="card">
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section id="approach" aria-labelledby="approach-h">
+    <div class="wrap">
+      <p class="eyebrow">Approach</p>
+      <h2 id="approach-h">How I work</h2>
+      <ul class="plain-list prose">
+        {howIWork.map((point) => <li>{point}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section id="skills" aria-labelledby="skills-h">
+    <div class="wrap">
+      <p class="eyebrow">Skills</p>
+      <h2 id="skills-h">Techno-functional across the Oracle Fusion HCM suite</h2>
+      {
+        skills.map((group) => (
+          <div class="pill-group">
+            <h3>{group.group}</h3>
+            <Pills items={group.items} />
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="experience" aria-labelledby="experience-h">
+    <div class="wrap">
+      <p class="eyebrow">Experience</p>
+      <h2 id="experience-h">Where I have worked</h2>
+      <ol class="role-list">
+        {
+          roles.map((role) => (
+            <li class="role">
+              <div class="role-head">
+                <h3>{role.title}</h3>
+                <p class="role-dates">{role.dates}</p>
+              </div>
+              <p class="role-meta">
+                <strong>{role.employer}</strong> · {role.industry} · {role.location}
+              </p>
+              <p>{role.short}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="actions" style="margin-top: 1.75rem;">
+        <a class="btn btn-ghost" href="/experience/">Full experience</a>
+      </p>
+    </div>
+  </section>
+
+  <section id="credentials" aria-labelledby="credentials-h">
+    <div class="wrap">
+      <p class="eyebrow">Credentials</p>
+      <h2 id="credentials-h">Certifications and education</h2>
+      <ul class="grid">
+        {
+          certifications.map((certification) => (
+            <li class="card">
+              <p>{certification}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <p style="margin-top: 1.25rem;">{education}</p>
+    </div>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-h">
+    <div class="wrap">
+      <p class="eyebrow">Contact</p>
+      <h2 id="contact-h">Get in touch</h2>
+      <p class="lead">{site.availability}</p>
+      <ul class="contact-list">
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><a href={site.linkedin} rel="noopener">linkedin.com/in/jose1038</a></li>
+        <li>{site.location}</li>
+      </ul>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,15 @@
+---
+import { site } from '../data/profile.mjs';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p>&copy; {year} {site.name}. {site.title}.</p>
+    <p>
+      <a href={`mailto:${site.email}`}>{site.email}</a> ·
+      <a href={site.linkedin} rel="noopener">LinkedIn</a>
+    </p>
+  </div>
+</footer>

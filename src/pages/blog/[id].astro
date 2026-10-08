@@ -1,0 +1,48 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getPublishedPosts } from '../../lib/blog.js';
+import { formatDate } from '../../lib/posts.mjs';
+import { site } from '../../data/profile.mjs';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { title, description, pubDate, updatedDate } = post.data;
+---
+
+<Base title={`${title} | ${site.name}`} description={description} ogType="article">
+  <article>
+    <div class="wrap page-head">
+      <p class="eyebrow"><a href="/blog/">Blog</a></p>
+      <h1>{title}</h1>
+      <p class="post-date">
+        <time datetime={pubDate.toISOString().slice(0, 10)}>{formatDate(pubDate)}</time>
+        {updatedDate && <span> · Updated {formatDate(updatedDate)}</span>}
+      </p>
+    </div>
+    <section>
+      <div class="wrap">
+        <div class="prose">
+          <Content />
+        </div>
+      </div>
+    </section>
+  </article>
+  <section>
+    <div class="wrap">
+      <div class="card">
+        <h2>{site.name}</h2>
+        <p>{site.title}, {site.location}.</p>
+        <p class="actions">
+          <a class="btn" href="/">About me</a>
+          <a class="btn btn-ghost" href={site.linkedin} rel="noopener">LinkedIn profile</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

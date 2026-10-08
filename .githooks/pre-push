@@ -1,0 +1,4 @@
+#!/bin/sh
+# This repo is public. Run the full check before anything leaves this PC.
+# It fails if the site, a draft, a test or any other file holds private content.
+npm run verify

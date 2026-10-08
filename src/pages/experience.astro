@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import RoleCard from '../components/RoleCard.astro';
+import { site, roles } from '../data/profile.mjs';
+
+const title = `Experience | ${site.name}, ${site.title}`;
+const description =
+  'Oracle Cloud HCM (Oracle Fusion HCM) experience of Jose Aeduru: six full-lifecycle implementations across Core HR, Oracle Recruiting (ORC), Payroll, Benefits, Absence Management, Compensation, Talent Management and Learning.';
+---
+
+<Base title={title} description={description}>
+  <div class="wrap page-head">
+    <p class="eyebrow">Experience</p>
+    <h1>14+ years in Oracle HCM</h1>
+    <p class="lead">
+      Six full-lifecycle Oracle Cloud HCM implementations, from design through go-live and hypercare.
+    </p>
+  </div>
+  <section>
+    <div class="wrap stack">
+      {roles.map((role) => <RoleCard role={role} />)}
+    </div>
+  </section>
+  <section>
+    <div class="wrap">
+      <p class="actions">
+        <a class="btn" href={`mailto:${site.email}`}>Email me</a>
+        <a class="btn btn-ghost" href={site.linkedin} rel="noopener">LinkedIn profile</a>
+      </p>
+    </div>
+  </section>
+</Base>

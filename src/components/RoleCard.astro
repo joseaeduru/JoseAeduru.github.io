@@ -1,0 +1,17 @@
+---
+const { role } = Astro.props;
+---
+
+<article class="card" id={role.id}>
+  <div class="role-head">
+    <h2>{role.title}</h2>
+    <p class="role-dates">{role.dates}</p>
+  </div>
+  <p class="role-meta">
+    <strong>{role.employer}</strong> · {role.industry} · {role.location}
+  </p>
+  <p>{role.summary}</p>
+  <ul class="bullets">
+    {role.bullets.map((bullet) => <li>{bullet}</li>)}
+  </ul>
+</article>

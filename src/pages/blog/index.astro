@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPublishedPosts } from '../../lib/blog.js';
+import { formatDate } from '../../lib/posts.mjs';
+import { site } from '../../data/profile.mjs';
+
+const posts = await getPublishedPosts();
+const title = `Blog | ${site.name}, ${site.title}`;
+const description =
+  'Articles by Jose Aeduru on Oracle Cloud HCM (Oracle Fusion HCM): implementation, Redwood, Oracle AI, integrations and quarterly releases.';
+---
+
+<Base title={title} description={description}>
+  <div class="wrap page-head">
+    <p class="eyebrow">Blog</p>
+    <h1>Notes on Oracle Cloud HCM</h1>
+  </div>
+  <section>
+    <div class="wrap">
+      {
+        posts.length === 0 ? (
+          <p class="lead">First article coming soon.</p>
+        ) : (
+          <ul class="post-list">
+            {posts.map((post) => (
+              <li class="card">
+                <h2>
+                  <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+                </h2>
+                <p class="post-date">
+                  <time datetime={post.data.pubDate.toISOString().slice(0, 10)}>
+                    {formatDate(post.data.pubDate)}
+                  </time>
+                </p>
+                <p>{post.data.description}</p>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </section>
+</Base>

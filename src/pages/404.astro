@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/profile.mjs';
+---
+
+<Base title={`Page not found | ${site.name}`} description="This page does not exist.">
+  <section>
+    <div class="wrap">
+      <p class="eyebrow">404</p>
+      <h1>Page not found</h1>
+      <p class="lead">That address does not match a page on this site.</p>
+      <p class="actions"><a class="btn" href="/">Go to the home page</a></p>
+    </div>
+  </section>
+</Base>
