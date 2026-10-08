@@ -39,8 +39,8 @@ test('every page has exactly one h1, a skip link and the header and footer', () 
     const html = read(file);
     assert.equal(html.match(/<h1[\s>]/g).length, 1, file);
     assert.match(html, /class="skip-link"/, file);
-    assert.match(html, /<header class="site-header theme-dark"/, file);
-    assert.match(html, /<footer class="site-footer theme-dark"/, file);
+    assert.match(html, /<header class="site-header"/, file);
+    assert.match(html, /<footer class="site-footer theme-dark" id="contact"/, file);
   }
 });
 
@@ -60,12 +60,12 @@ test('static files are built', () => {
 
 test('home shows the hero, contact links and all sections', () => {
   const html = read('index.html');
-  assert.match(html, /Oracle HCM programs from design through go-live/);
+  assert.match(html, /<h1[^>]*>Oracle HCM programs, from design\s*<em>through go-live\.<\/em>/);
   assert.match(html, /full-lifecycle implementations/);
   assert.match(html, /href="mailto:mailmejo9@gmail\.com"/);
   assert.match(html, /href="https:\/\/www\.linkedin\.com\/in\/jose1038"/);
   assert.match(html, /Frisco, TX \(open to remote\)/);
-  for (const id of ['about', 'led', 'approach', 'skills', 'experience', 'credentials', 'contact']) {
+  for (const id of ['expertise', 'work', 'experience', 'approach', 'credentials', 'contact']) {
     assert.match(html, new RegExp(`id="${id}"`), id);
   }
 });
@@ -123,4 +123,19 @@ test('blog index says so when there are no posts yet', () => {
 test('home takes its availability line from the profile data', async () => {
   const { site } = await import('../../src/data/profile.mjs');
   assert.ok(read('index.html').includes(site.availability));
+});
+
+test('home shows four selected work cases, each with a headline figure and a fold-out', () => {
+  const html = read('index.html');
+  assert.equal(html.match(/class="work"/g).length, 4);
+  assert.equal(html.match(/<details/g).length, 4);
+  for (const text of ['Four business units.', 'About 30 minutes with HDL.', 'its first audit.', 'Features analyzed for 26C']) {
+    assert.ok(html.includes(text), text);
+  }
+});
+
+test('home offers no resume download and no item barred from the public site', () => {
+  const html = read('index.html');
+  assert.doesNotMatch(html, /\.pdf|\.docx|download/i);
+  assert.doesNotMatch(html, /DEV1|guidance checks|security mapping/i);
 });

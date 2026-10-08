@@ -9,26 +9,18 @@ const description =
 ---
 
 <Base title={title} description={description}>
-  <div class="page-head theme-dark">
+  <div class="page-head">
     <div class="wrap">
-      <p class="eyebrow">Experience</p>
-      <h1>14+ years in Oracle HCM</h1>
+      <p class="label">Experience</p>
+      <h1>14+ years <em>in Oracle HCM.</em></h1>
       <p class="lead">
         Six full-lifecycle Oracle Cloud HCM implementations, from design through go-live and hypercare.
       </p>
     </div>
   </div>
-  <section>
-    <div class="wrap stack">
+  <section class="band-white">
+    <div class="wrap role-list">
       {roles.map((role) => <RoleCard role={role} />)}
-    </div>
-  </section>
-  <section>
-    <div class="wrap">
-      <p class="actions">
-        <a class="btn" href={`mailto:${site.email}`}>Email me</a>
-        <a class="btn btn-ghost" href={site.linkedin} rel="noopener">LinkedIn profile</a>
-      </p>
     </div>
   </section>
 </Base>

@@ -5,16 +5,23 @@ import { getPublishedPosts } from '../lib/blog.js';
 const hasPosts = (await getPublishedPosts()).length > 0;
 const path = Astro.url.pathname;
 const links = [
-  { href: '/', label: 'Home' },
+  { href: '/#expertise', label: 'Expertise' },
+  { href: '/#work', label: 'Selected work' },
   { href: '/experience/', label: 'Experience' },
   ...(hasPosts ? [{ href: '/blog/', label: 'Blog' }] : []),
 ];
-const isCurrent = (href) => (href === '/' ? path === '/' : path.startsWith(href));
+const isCurrent = (href) => !href.includes('#') && path.startsWith(href);
 ---
 
-<header class="site-header theme-dark">
+<header class="site-header">
   <div class="wrap header-inner">
-    <a class="brand" href="/">{site.name}</a>
+    <a class="brand" href="/" aria-label={`${site.name}, home`}>
+      <span class="brand-mark" aria-hidden="true">JA</span>
+      <span class="brand-text">
+        <span class="brand-name">{site.name}</span>
+        <span class="brand-sub">Oracle Cloud HCM</span>
+      </span>
+    </a>
     <nav aria-label="Main">
       <ul class="nav-list">
         {
@@ -26,9 +33,10 @@ const isCurrent = (href) => (href === '/' ? path === '/' : path.startsWith(href)
             </li>
           ))
         }
-        <li><a class="btn" href={`mailto:${site.email}`}>Email</a></li>
+        <li class="nav-cta">
+          <a href="#contact">Let's connect<span class="arrow" aria-hidden="true">↗</span></a>
+        </li>
       </ul>
     </nav>
   </div>
-  <div class="accent-bar"></div>
 </header>

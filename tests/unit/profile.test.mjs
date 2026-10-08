@@ -114,3 +114,40 @@ test('the availability line is data, so it has one place to change or remove', (
   assert.equal(typeof site.availability, 'string');
   assert.match(site.availability, /Oracle Cloud HCM roles/);
 });
+
+test('the hero headline has a lead line and an accent line', () => {
+  assert.deepEqual(site.headline, ['Oracle HCM programs, from design', 'through go-live.']);
+});
+
+test('selected work has four cases, each tied to a real role and complete', () => {
+  const { selectedWork } = profile;
+  assert.equal(selectedWork.length, 4);
+  for (const work of selectedWork) {
+    assert.ok(roles.some((role) => role.id === work.role), `${work.id}: unknown role ${work.role}`);
+    assert.equal(work.title.length, 2, work.id);
+    for (const text of [work.area, work.kicker, work.summary, work.stat.value, work.stat.label, work.stat.note]) {
+      assert.ok(typeof text === 'string' && text.length > 0, work.id);
+    }
+    assert.ok(work.details.length >= 2, work.id);
+  }
+  assert.equal(new Set(selectedWork.map((w) => w.id)).size, 4);
+});
+
+test('every figure in selected work is one that appears in the resume', () => {
+  const { selectedWork } = profile;
+  const figures = selectedWork.map((w) => `${w.stat.value}${w.stat.unit ?? ''}`);
+  assert.deepEqual(figures, ['4', '30min', '129', '1st']);
+  const detailText = selectedWork.flatMap((w) => [w.summary, w.stat.note, ...w.details]).join(' ');
+  const numbers = [...detailText.matchAll(/\b\d[\d,]*\b/g)].map((m) => m[0]);
+  for (const n of numbers) assert.ok(['109', '129', '26', '30'].includes(n), `unexpected number ${n}`);
+});
+
+test('selected work details reuse bullets already approved for the role', () => {
+  const { selectedWork } = profile;
+  for (const work of selectedWork) {
+    const role = roles.find((r) => r.id === work.role);
+    for (const detail of work.details) {
+      assert.ok(role.bullets.includes(detail), `${work.id}: detail is not one of the role's bullets: ${detail.slice(0, 50)}`);
+    }
+  }
+});

@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-// The palette lives in two blocks of global.css: ":root" (cream pages) and
-// ".theme-dark" (forest green header, hero, page heads and footer).
+// The palette lives in two blocks of global.css: ":root" (light pages) and
+// ".theme-dark" (the contact footer).
 const css = readFileSync('src/styles/global.css', 'utf8');
 
 function tokens(selector) {
@@ -29,46 +29,51 @@ function contrast(a, b) {
   return (hi + 0.05) / (lo + 0.05);
 }
 
-const cream = tokens(':root');
-const forest = { ...cream, ...tokens('.theme-dark') };
+const light = tokens(':root');
+const dark = { ...light, ...tokens('.theme-dark') };
+const lightBackgrounds = ['--bg-solid', '--surface', '--band'];
 
-test('the palette is forest green, cream and gold', () => {
-  assert.equal(cream['--bg-solid'], '#faf6ec');
-  assert.equal(forest['--bg-solid'], '#145238');
-  assert.equal(cream['--accent'], '#dcae32');
+test('the palette is warm off-white, deep green and gold', () => {
+  assert.equal(light['--bg-solid'], '#f5f3ee');
+  assert.equal(light['--forest'], '#213d3a');
+  assert.equal(dark['--bg-solid'], '#213d3a');
 });
 
-test('the old navy palette is gone', () => {
-  assert.doesNotMatch(css, /#071430|#0b1f4a|#10306c|#f59e0b|#3b82f6/i);
+test('earlier palettes are gone', () => {
+  assert.doesNotMatch(css, /#071430|#0b1f4a|#10306c|#f59e0b|#3b82f6|#dcae32|#faf6ec/i);
 });
 
-test('every text color passes WCAG AA on cream and on forest green', () => {
-  for (const [name, scope] of [['cream', cream], ['forest', forest]]) {
-    for (const token of ['--text', '--text-muted', '--heading', '--highlight', '--link']) {
-      const ratio = contrast(scope[token], scope['--bg-solid']);
-      assert.ok(ratio >= 4.5, `${token} on ${name}: ${ratio.toFixed(2)}`);
+test('every text color passes WCAG AA on every light background', () => {
+  for (const bg of lightBackgrounds) {
+    for (const token of ['--text', '--text-muted', '--heading', '--label', '--link']) {
+      const ratio = contrast(light[token], light[bg]);
+      assert.ok(ratio >= 4.5, `${token} on ${bg}: ${ratio.toFixed(2)}`);
     }
   }
 });
 
-test('text on cards passes WCAG AA', () => {
-  for (const token of ['--text', '--text-muted', '--highlight', '--link']) {
-    const ratio = contrast(cream[token], cream['--surface']);
-    assert.ok(ratio >= 4.5, `${token} on card: ${ratio.toFixed(2)}`);
+test('every text color passes WCAG AA on the dark footer', () => {
+  for (const token of ['--text', '--text-muted', '--heading', '--label', '--link']) {
+    const ratio = contrast(dark[token], dark['--bg-solid']);
+    assert.ok(ratio >= 4.5, `${token} on dark: ${ratio.toFixed(2)}`);
   }
 });
 
-test('button and tag text passes WCAG AA on gold', () => {
-  assert.ok(contrast(cream['--accent-ink'], cream['--accent']) >= 4.5);
-  assert.ok(contrast(cream['--accent-ink'], cream['--accent-hover']) >= 4.5);
+test('the italic accent is only for large headlines, and passes AA for large text', () => {
+  for (const bg of lightBackgrounds) {
+    const ratio = contrast(light['--accent'], light[bg]);
+    assert.ok(ratio >= 3, `--accent on ${bg}: ${ratio.toFixed(2)}`);
+  }
+  assert.ok(contrast(dark['--accent'], dark['--bg-solid']) >= 3);
+  // Small labels must not reuse the lighter headline accent.
+  assert.notEqual(light['--label'], light['--accent']);
 });
 
-test('bright gold is not used for text on cream, where it is too faint', () => {
-  assert.ok(contrast(cream['--accent'], cream['--bg-solid']) < 4.5, 'gold on cream is expected to be faint');
-  assert.notEqual(cream['--highlight'], cream['--accent']);
+test('button text passes WCAG AA', () => {
+  assert.ok(contrast(light['--btn-ink'], light['--forest']) >= 4.5);
 });
 
-test('the keyboard focus ring is visible on both backgrounds', () => {
-  assert.ok(contrast(cream['--focus'], cream['--bg-solid']) >= 3);
-  assert.ok(contrast(forest['--focus'], forest['--bg-solid']) >= 3);
+test('the keyboard focus ring is visible on light and dark', () => {
+  for (const bg of lightBackgrounds) assert.ok(contrast(light['--focus'], light[bg]) >= 3);
+  assert.ok(contrast(dark['--focus'], dark['--bg-solid']) >= 3);
 });

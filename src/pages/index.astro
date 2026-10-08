@@ -9,143 +9,174 @@ import {
   howIWork,
   skills,
   roles,
+  selectedWork,
   certifications,
   education,
 } from '../data/profile.mjs';
 
 const title = `${site.name} | ${site.title}, Frisco, TX`;
+const number = (index) => String(index + 1).padStart(2, '0');
 ---
 
 <Base title={title} description={site.description}>
-  <section class="hero theme-dark">
-    <div class="wrap">
-      <p class="tag">Oracle Cloud HCM</p>
-      <h1>{site.name}</h1>
-      <p class="hero-title">{site.title} · {site.subtitle}</p>
-      <p class="hero-line">{site.tagline}</p>
-      <p class="hero-sub">{site.focus}</p>
-      <ul class="stats">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="label">{site.name} · {site.title} · {site.subtitle}</p>
+        <h1>{site.headline[0]} <em>{site.headline[1]}</em></h1>
+        <p class="lead">{about[0]}</p>
+        <p class="actions">
+          <a class="btn" href={`mailto:${site.email}`}>Email me<span class="arrow" aria-hidden="true">↗</span></a>
+          <a class="text-link" href={site.linkedin} rel="noopener">LinkedIn profile<span class="arrow" aria-hidden="true">↗</span></a>
+        </p>
+        <p class="label hero-focus">{site.focus}</p>
+      </div>
+      <ul class="hero-stats">
         {
           stats.map((stat) => (
-            <li class="stat">
+            <li>
               <strong>{stat.value}</strong>
-              <span>{stat.label}</span>
+              <span class="label">{stat.label}</span>
             </li>
           ))
         }
       </ul>
-      <p class="actions">
-        <a class="btn" href={`mailto:${site.email}`}>Email me</a>
-        <a class="btn btn-ghost" href={site.linkedin} rel="noopener">LinkedIn profile</a>
-      </p>
     </div>
   </section>
 
-  <section id="about" aria-labelledby="about-h">
+  <section id="expertise" class="band-white" aria-labelledby="expertise-h">
+    <div class="wrap split">
+      <div class="split-aside sticky">
+        <p class="label">01 / Expertise</p>
+        <h2 id="expertise-h">Techno-functional, <em>across the suite.</em></h2>
+        <p class="lead">{about[1]}</p>
+      </div>
+      <div class="split-main">
+        <ul class="rule-list">
+          {
+            led.map((item) => (
+              <li>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
     <div class="wrap">
-      <p class="eyebrow">About</p>
-      <h2 id="about-h">Oracle Cloud HCM, from blank slate to steady state</h2>
-      <div class="prose">
-        {about.map((paragraph) => <p>{paragraph}</p>)}
+      <div class="skills">
+        {
+          skills.map((group) => (
+            <div class="skill-row">
+              <p class="label">{group.group}</p>
+              <Pills items={group.items} />
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
 
-  <section id="led" aria-labelledby="led-h">
+  <section id="work" aria-labelledby="work-h">
     <div class="wrap">
-      <p class="eyebrow">Track record</p>
-      <h2 id="led-h">What I have led</h2>
-      <ul class="grid">
+      <div class="section-head">
+        <p class="label">02 / Selected work</p>
+        <h2 id="work-h">Programs delivered, <em>start to finish.</em></h2>
+      </div>
+      <ol class="work-list">
         {
-          led.map((item) => (
-            <li class="card">
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
-  <section id="approach" aria-labelledby="approach-h">
-    <div class="wrap">
-      <p class="eyebrow">Approach</p>
-      <h2 id="approach-h">How I work</h2>
-      <ul class="plain-list prose">
-        {howIWork.map((point) => <li>{point}</li>)}
-      </ul>
-    </div>
-  </section>
-
-  <section id="skills" aria-labelledby="skills-h">
-    <div class="wrap">
-      <p class="eyebrow">Skills</p>
-      <h2 id="skills-h">Techno-functional across the Oracle Fusion HCM suite</h2>
-      {
-        skills.map((group) => (
-          <div class="pill-group">
-            <h3>{group.group}</h3>
-            <Pills items={group.items} />
-          </div>
-        ))
-      }
-    </div>
-  </section>
-
-  <section id="experience" aria-labelledby="experience-h">
-    <div class="wrap">
-      <p class="eyebrow">Experience</p>
-      <h2 id="experience-h">Where I have worked</h2>
-      <ol class="role-list">
-        {
-          roles.map((role) => (
-            <li class="role">
-              <div class="role-head">
-                <h3>{role.title}</h3>
-                <p class="role-dates">{role.dates}</p>
+          selectedWork.map((work, index) => (
+            <li class="work">
+              <div class="work-index">
+                <span class="work-no">{number(index)}</span>
+                <span class="label">{work.area}</span>
               </div>
-              <p class="role-meta">
-                <strong>{role.employer}</strong> · {role.industry} · {role.location}
-              </p>
-              <p>{role.short}</p>
+              <div class="work-body">
+                <p class="label">{work.kicker}</p>
+                <h3>
+                  <span>{work.title[0]}</span>
+                  <span>{work.title[1]}</span>
+                </h3>
+                <p>{work.summary}</p>
+                <details>
+                  <summary>Project context</summary>
+                  <ul class="bullets">
+                    {work.details.map((detail) => <li>{detail}</li>)}
+                  </ul>
+                </details>
+              </div>
+              <div class="work-stat">
+                <p class="stat-value">
+                  {work.stat.value}{work.stat.unit && <small>{work.stat.unit}</small>}
+                </p>
+                <p class="label">{work.stat.label}</p>
+                <p class="stat-note">{work.stat.note}</p>
+              </div>
             </li>
           ))
         }
       </ol>
-      <p class="actions" style="margin-top: 1.75rem;">
-        <a class="btn btn-ghost" href="/experience/">Full experience</a>
-      </p>
     </div>
   </section>
 
-  <section id="credentials" aria-labelledby="credentials-h">
-    <div class="wrap">
-      <p class="eyebrow">Credentials</p>
-      <h2 id="credentials-h">Certifications and education</h2>
-      <ul class="grid">
-        {
-          certifications.map((certification) => (
-            <li class="card">
-              <p>{certification}</p>
-            </li>
-          ))
-        }
-      </ul>
-      <p style="margin-top: 1.25rem;">{education}</p>
+  <section id="experience" class="band-white" aria-labelledby="experience-h">
+    <div class="wrap split">
+      <div class="split-aside sticky">
+        <p class="label">03 / Experience</p>
+        <h2 id="experience-h">A career built <em>in delivery.</em></h2>
+        <p class="lead">
+          From EBS and Cloud migration work to leading enterprise HCM programs and supporting live operations.
+        </p>
+        <p class="actions">
+          <a class="text-link" href="/experience/">Full experience<span class="arrow" aria-hidden="true">↗</span></a>
+        </p>
+      </div>
+      <div class="split-main">
+        <ol class="timeline">
+          {
+            roles.map((role) => (
+              <li>
+                <p class="label">{role.dates}</p>
+                <h3 class="tl-employer">{role.employer}</h3>
+                <p class="tl-title">{role.title}</p>
+                <p>{role.short}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
     </div>
   </section>
 
-  <section id="contact" aria-labelledby="contact-h">
-    <div class="wrap">
-      <p class="eyebrow">Contact</p>
-      <h2 id="contact-h">Get in touch</h2>
-      <p class="lead">{site.availability}</p>
-      <ul class="contact-list">
-        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-        <li><a href={site.linkedin} rel="noopener">linkedin.com/in/jose1038</a></li>
-        <li>{site.location}</li>
-      </ul>
+  <section id="approach" aria-labelledby="approach-h">
+    <div class="wrap split">
+      <div class="split-aside">
+        <p class="label">04 / Approach</p>
+        <h2 id="approach-h">How <em>I work.</em></h2>
+      </div>
+      <div class="split-main">
+        <ol class="rule-list numbered">
+          {howIWork.map((point) => <li><span>{point}</span></li>)}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="credentials" class="band-sage credentials" aria-labelledby="credentials-h">
+    <div class="wrap split">
+      <div class="split-aside">
+        <p class="label">Professional foundation</p>
+        <h2 id="credentials-h">Credentials <em>and education.</em></h2>
+      </div>
+      <div class="split-main">
+        <h3>Oracle certifications</h3>
+        <ul class="rule-list">
+          {certifications.map((certification) => <li>{certification}</li>)}
+        </ul>
+        <h3>Education</h3>
+        <p>{education}</p>
+      </div>
     </div>
   </section>
 </Base>

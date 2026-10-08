@@ -5,7 +5,7 @@ export const site = {
   name: 'Jose Aeduru',
   title: 'Lead Oracle Cloud HCM Consultant',
   subtitle: 'Techno-Functional SME',
-  tagline: 'Oracle HCM programs from design through go-live',
+  headline: ['Oracle HCM programs, from design', 'through go-live.'],
   focus: 'Redwood · Oracle AI · Integrations',
   email: 'mailmejo9@gmail.com',
   linkedin: 'https://www.linkedin.com/in/jose1038',
@@ -284,3 +284,69 @@ export const certifications = [
 ];
 
 export const education = 'Bachelor of Technology (B.Tech), Jawaharlal Nehru Technological University (JNTUH), India';
+
+// Home page case studies. Every figure is from the resume, and every line under
+// "details" is one of the bullets already listed for that role above.
+const bullet = (roleId, start) => {
+  const found = roles.find((role) => role.id === roleId).bullets.find((b) => b.startsWith(start));
+  if (!found) throw new Error(`No ${roleId} bullet starts with "${start}"`);
+  return found;
+};
+
+export const selectedWork = [
+  {
+    id: 'fortive-rollout',
+    role: 'fortive',
+    area: 'Program delivery',
+    kicker: 'Fortive / Core HR and ORC rollout',
+    title: ['Four business units.', 'One Oracle HCM platform.'],
+    summary:
+      'Ran the Core HR and ORC rollout across four business units, then led the move from Responsive UI to Redwood for both modules.',
+    stat: { value: '4', label: 'Business units on one platform', note: 'HR operations never stopped during the Redwood migration.' },
+    details: [
+      bullet('fortive', 'Managed a mixed onshore'),
+      bullet('fortive', 'Oracle Recruiting (ORC): owned the design'),
+      bullet('fortive', 'Integrations: delivered HireRight'),
+    ],
+  },
+  {
+    id: 'pace-bulk-load',
+    role: 'pace',
+    area: 'HR operations',
+    kicker: 'Pace Suburban Bus / Bulk data',
+    title: ['A day of salary updates.', 'About 30 minutes with HDL.'],
+    summary: 'Replaced one-at-a-time salary changes with a bulk HDL load, for work HR had been doing by hand.',
+    stat: { value: '30', unit: 'min', label: 'Approximate processing time', note: 'Previously a full working day.' },
+    details: [
+      bullet('pace', 'Took Core HR and Recruiting live'),
+      bullet('pace', 'Redwood: rebuilt self-service pages'),
+    ],
+  },
+  {
+    id: 'pace-quarterly-updates',
+    role: 'pace',
+    area: 'Release management',
+    kicker: 'Pace Suburban Bus / Quarterly updates',
+    title: ['Every feature reviewed', 'before it reaches users.'],
+    summary:
+      'Own the quarterly update cycle: every feature reviewed, the steering committee briefed, and a Redwood regression plan in place.',
+    stat: { value: '129', label: 'Features analyzed for 26C', note: 'Plus 109 reviewed for 26B.' },
+    details: [
+      bullet('pace', 'Own the quarterly update cycle'),
+      bullet('pace', 'Building an Oracle AI pilot'),
+    ],
+  },
+  {
+    id: 'tcs-security-audit',
+    role: 'tcs',
+    area: 'Security and audit',
+    kicker: 'Tata Consultancy Services / Global manufacturing client',
+    title: ['Security that passed', 'its first audit.'],
+    summary: 'Built role-based security with segregation of duties on a large multi-country implementation.',
+    stat: { value: '1st', label: 'Audit passed', note: 'With no access remediation.' },
+    details: [
+      bullet('tcs', 'Data migration: drove HCM Data Loader'),
+      bullet('tcs', 'Integrations: configured Oracle Integration Cloud'),
+    ],
+  },
+];

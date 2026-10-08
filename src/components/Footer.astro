@@ -2,14 +2,34 @@
 import { site } from '../data/profile.mjs';
 
 const year = new Date().getFullYear();
+const linkedinLabel = site.linkedin.replace('https://www.', '');
 ---
 
-<footer class="site-footer theme-dark">
-  <div class="wrap footer-inner">
+<footer class="site-footer theme-dark" id="contact">
+  <div class="wrap split">
+    <div class="split-aside">
+      <p class="label">Start a conversation</p>
+      <h2>Let's talk about <em>your HCM needs.</em></h2>
+      <p class="lead">{site.availability}</p>
+    </div>
+    <div class="split-main">
+      <ul class="contact-rows">
+        <li>
+          <p class="label">Email Jose</p>
+          <a href={`mailto:${site.email}`}>{site.email}<span class="arrow" aria-hidden="true">↗</span></a>
+        </li>
+        <li>
+          <p class="label">Connect on LinkedIn</p>
+          <a href={site.linkedin} rel="noopener">{linkedinLabel}<span class="arrow" aria-hidden="true">↗</span></a>
+        </li>
+        <li>
+          <p class="label">Based in</p>
+          <span class="value">{site.location}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer-base">
     <p>&copy; {year} {site.name}. {site.title}.</p>
-    <p>
-      <a href={`mailto:${site.email}`}>{site.email}</a> ·
-      <a href={site.linkedin} rel="noopener">LinkedIn</a>
-    </p>
   </div>
 </footer>

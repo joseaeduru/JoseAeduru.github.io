@@ -11,13 +11,13 @@ const description =
 ---
 
 <Base title={title} description={description}>
-  <div class="page-head theme-dark">
+  <div class="page-head">
     <div class="wrap">
-      <p class="eyebrow">Blog</p>
-      <h1>Notes on Oracle Cloud HCM</h1>
+      <p class="label">Blog</p>
+      <h1>Notes on <em>Oracle Cloud HCM.</em></h1>
     </div>
   </div>
-  <section>
+  <section class="band-white">
     <div class="wrap">
       {
         posts.length === 0 ? (
@@ -25,7 +25,7 @@ const description =
         ) : (
           <ul class="post-list">
             {posts.map((post) => (
-              <li class="card">
+              <li>
                 <h2>
                   <a href={`/blog/${post.id}/`}>{post.data.title}</a>
                 </h2>
