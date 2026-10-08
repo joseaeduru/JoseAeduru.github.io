@@ -37,4 +37,17 @@ This repository is public. A draft post is hidden from the website, not from Git
 
 ## Deploy
 
-Pushing to `main` builds and deploys the site through `.github/workflows/deploy.yml`.
+```bash
+npm run deploy
+```
+
+Run it on the `source` branch with everything committed. It runs the full check, builds the site, and pushes the built pages to `main`, which is the branch GitHub Pages serves. The live site updates about a minute later.
+
+Branches:
+
+| Branch | Holds |
+|---|---|
+| `source` | The project: pages, data, styles, tests. Work here. |
+| `main` | The built website only. Written by `npm run deploy`; do not edit by hand. |
+
+`.github/workflows/deploy.yml` is an alternative that builds on GitHub instead. It is not in use; it only applies if the repository's Pages source is switched to "GitHub Actions" and the project is moved to `main`.

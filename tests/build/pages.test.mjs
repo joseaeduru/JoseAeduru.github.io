@@ -139,3 +139,8 @@ test('home offers no resume download and no item barred from the public site', (
   assert.doesNotMatch(html, /\.pdf|\.docx|download/i);
   assert.doesNotMatch(html, /DEV1|guidance checks|security mapping/i);
 });
+
+test('the build carries .nojekyll, so GitHub Pages serves the _astro folder', () => {
+  assert.ok(existsSync('dist/.nojekyll'));
+  assert.ok(readdirSync('dist/_astro').some((file) => file.endsWith('.css')));
+});
